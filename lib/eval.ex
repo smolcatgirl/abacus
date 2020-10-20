@@ -109,6 +109,15 @@ defmodule Abacus.Eval do
     when is_number(a),
     do: {:ok, :math.log10(a)}
 
+  # Rand functions
+  def eval({:function, "rand", []}, _), do: {:ok, :rand.uniform() }
+  def eval({:function, "rand", [n]}, _), do: {:ok, :rand.uniform(n) }
+
+  # Conversion functions
+
+  def eval({:function, "to_integer", [n]}, _) when is_float(n), do: {:ok, round(n) } 
+  def eval({:function, "to_float", [n]}, _) when is_integer(n), do: {:ok, n / 1 }
+
   # IDENTITY
 
   def eval(number, _)
